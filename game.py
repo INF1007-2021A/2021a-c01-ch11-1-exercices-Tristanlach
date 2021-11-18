@@ -11,28 +11,46 @@ import utils
 
 
 class Weapon:
-	"""
-	Une arme dans le jeu.
+	def __init__(self, name, power, minlevel):
+		self.__name = name
+		self.power = power
+		self.minlevel = minlevel
 
-	:param name: Le nom de l'arme
-	:param power: Le niveau d'attaque
-	:param min_level: Le niveau minimal pour l'utiliser
-	"""
+	@property
+	def name(self):
+		return self.__name
 
-	UNARMED_POWER = 20
+	def make_unarmed(self):
+		self.__name = "Unarmed"
+		self.power = 20
 
 
 class Character:
-	"""
-	Un personnage dans le jeu
+	def __init__(self, name, max_hp, attack, defense, level, weapon, hp):
+		self.name = name
+		self.max_hp = max_hp
+		self.attack = attack
+		self.defense = defense
+		self.level = level
+		self.weapon = weapon
+		self.hp = hp
 
-	:param name: Le nom du personnage
-	:param max_hp: HP maximum
-	:param attack: Le niveau d'attaque du personnage
-	:param defense: Le niveau de défense du personnage
-	:param level: Le niveau d'expérience du personnage
-	"""
+	def compute_damage(self, a, d):
+		self.attacker = a
+		self.defender = d
 
+		if random.random() < (1/16):
+			crit = 2
+		else:
+			crit = 1
+
+		self.damage = int(((((((2 * a.level)/5) + 2) * a.weapon.power * (a.attack/d.defense))+ 2)/50) * (crit * random.uniform(0.85, 1.00)))
+
+		return self.damage
+
+	#@name.setter
+		#def name(self, value):
+			#self.__name = value
 
 def deal_damage(attacker, defender):
 	# TODO: Calculer dégâts
